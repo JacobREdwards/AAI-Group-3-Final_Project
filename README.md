@@ -470,7 +470,77 @@ These graphics help connect the GitHub repository to the presentation and ML Des
 
 ---
 
-## 18. How to Run the Code
+## 18 S3 Data Lake Structure
+
+All project data, model artifacts, monitoring reports, and feature store records are stored in Amazon S3. The S3 bucket serves as the central data lake for the PackageGuard AI platform and supports the entire machine learning lifecycle, from data ingestion through model deployment and monitoring.
+
+### S3 Bucket
+
+```text
+s3://sagemaker-us-east-1-016905035504/supply-chain-risk/
+```
+
+### Folder Structure
+
+```text
+supply-chain-risk/
+│
+├── raw/
+│   ├── pypi_metadata/
+│   ├── malicious_labels/
+│   └── external_sources/
+│
+├── processed/
+│   ├── cleaned_data/
+│   └── engineered_features/
+│
+├── training/
+│   ├── train/
+│   ├── validation/
+│   └── test/
+│
+├── production/
+│   └── inference_data/
+│
+├── feature-store/
+│   └── offline_store/
+│
+├── model-artifacts/
+│   ├── xgboost/
+│   ├── random_forest/
+│   └── logistic_regression/
+│
+├── batch-output/
+│   └── predictions/
+│
+└── monitoring/
+    ├── model_reports/
+    ├── data_drift_reports/
+    └── infrastructure_metrics/
+```
+
+### Data Flow
+
+1. Raw package metadata and malicious package datasets are ingested into the **raw** layer.
+2. Data cleaning and feature engineering outputs are stored in the **processed** layer.
+3. Training, validation, and test datasets are stored in the **training** layer.
+4. Engineered features are ingested into SageMaker Feature Store, with the offline store backed by the **feature-store** location.
+5. Trained model artifacts are stored in the **model-artifacts** folder.
+6. Batch inference predictions are written to **batch-output**.
+7. Monitoring reports, drift reports, and model performance reports are stored in **monitoring**.
+
+### Security and Access Control
+
+* Access to the S3 bucket is restricted using AWS IAM roles and policies.
+* Encryption at rest is enabled through AWS-managed encryption.
+* The bucket is not publicly accessible.
+* Only authorized SageMaker jobs, notebooks, and project team members can read or write data.
+* Sensitive information is not intentionally collected or stored as part of this project.
+
+This structure provides a scalable and organized data lake architecture that supports data versioning, reproducibility, model governance, monitoring, and future expansion of the PackageGuard AI platform.
+
+---
+## 19. How to Run the Code
 
 ### 1. Clone repository
 
@@ -539,7 +609,7 @@ DataPrep → FeatureEng → Train → Evaluate → Register
 
 ---
 
-## 19. Deliverable #3 Requirement Mapping
+## 20. Deliverable #3 Requirement Mapping
 
 This repository is designed to satisfy Deliverable #3: Codebase GitHub Repository.
 
@@ -566,7 +636,7 @@ This repository is designed to satisfy Deliverable #3: Codebase GitHub Repositor
 
 ---
 
-## 20. Teamwork Evidence
+## 21. Teamwork Evidence
 
 The repository should reflect teamwork through:
 
@@ -587,7 +657,7 @@ Suggested team ownership:
 
 ---
 
-## 21. Known Limitations
+## 22. Known Limitations
 
 - MVP focuses only on PyPI
 - Benign labels mean “not known malicious,” not guaranteed safe
@@ -599,7 +669,7 @@ Suggested team ownership:
 
 ---
 
-## 22. Future Enhancements
+## 23. Future Enhancements
 
 Future improvements include:
 
@@ -615,7 +685,7 @@ Future improvements include:
 
 ---
 
-## 23. Responsible Use
+## 24. Responsible Use
 
 PackageGuard AI should be used as a risk scoring and review-prioritization system. It should not be used as final proof that a package or maintainer is malicious.
 
@@ -623,7 +693,7 @@ High-risk predictions should be reviewed by a human security analyst before enfo
 
 ---
 
-## 24. Project Status
+## 25. Project Status
 
 Current status:
 
@@ -641,7 +711,7 @@ Current status:
 
 ---
 
-## 25. References
+## 26. References
 
 Public data and security sources used or referenced:
 
